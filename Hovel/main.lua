@@ -8,6 +8,10 @@
 --Date: 01/07/2016
 --Author: Johann S. R. Eckman
 
+require("tile_sets")
+Cell_Matrix = require("cell_matrix")
+Tile = require("tile")
+
 function love.load()
 	--x,y coords for printing debug on where the mouse pressed
 	printx = -1
@@ -16,8 +20,12 @@ function love.load()
 	select_box_x = -1
 	select_box_y = -1
 
+	--x,y coords for selection
 	selection_x = -1
 	selection_y = -1
+
+	GRID_WIDTH = 47
+	GRID_HEIGHT = 31
 
 	--set the size of the window to 1200 by 1000
 	love.window.setMode( 1200, 1000)
@@ -32,6 +40,12 @@ function love.load()
 		love.graphics.setColor( 255, 255, 255 )
 		love.graphics.setBackgroundColor( 120, 120, 120 )
 	love.graphics.setCanvas()
+
+	--build matrix of size 48x32 representing the grids
+	main_cells = Cell_Matrix.initialize()
+
+	--build the test map tiles
+	main_cells.build_test_map()
 end
 
 function love.update(dt)
@@ -41,6 +55,14 @@ function love.draw()
 	--draws the intial canvas
 	love.graphics.draw( my_canvas )
 
+	--draw tiles
+	for i = 0, GRID_WIDTH do
+		for j = 0, GRID_HEIGHT do
+			love.graphics.setColor( main_cells[i][j].color_r, main_cells[i][j].color_g, main_cells[i][j].color_b )
+			love.graphics.rectangle( "fill", main_cells[i][j].x * 25, main_cells[i][j].y * 25, 25, 25)
+		end
+	end
+
 	love.graphics.setColor( 255, 255, 255 )
 	--set up the grid
 	for i=25, 800, 25 do
@@ -49,6 +71,9 @@ function love.draw()
 	for i=25, 1200, 25 do 
 		love.graphics.line(i, 0, i, 800)
 	end
+
+	--draw the x,y debug information at the bottom of the window
+	love.graphics.setColor( 255, 255, 255 )
 	love.graphics.print("x " .. printx .. " y " .. printy, 600, 900 )
 
 	--draw selection box
@@ -58,7 +83,7 @@ end
 
 function love.mousepressed(x, y, button)
 	--Debug print to find the  coordinates of the mouse press
-	if button == 1 then
+	if button == 1 and x <= 1200 and y <= 800 then
 		printx = math.floor( x / 25 )
 		printy = math.floor( y / 25 )
 
