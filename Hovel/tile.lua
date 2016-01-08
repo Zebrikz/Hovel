@@ -2,15 +2,17 @@
 --Date: 01/07/2016
 --Author: Johann S. R. Eckman
 
+Terrain = require("terrain")
+
 local Tile = {}
 
-function Tile.initialize( x, y, r, g, b )
+function Tile.initialize( x, y, t_type )
 	local tile = {}
 	tile.x = x
 	tile.y = y
-	tile.color_r = r
-	tile.color_g = g
-	tile.color_b = b
+	tile.terrain = Terrain.initialize( t_type )
+	tile.has_building = false
+	tile.building = nil
 	return tile
 end
 

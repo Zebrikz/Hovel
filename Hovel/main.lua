@@ -14,15 +14,15 @@ Tile = require("tile")
 
 function love.load()
 	--x,y coords for printing debug on where the mouse pressed
-	printx = -1
-	printy = -1
+	printx = 0
+	printy = 0
 	--x,y coords for selection box
-	select_box_x = -1
-	select_box_y = -1
+	select_box_x = 0
+	select_box_y = 0
 
 	--x,y coords for selection
-	selection_x = -1
-	selection_y = -1
+	-- selection_x = 0
+	-- selection_y = 0
 
 	GRID_WIDTH = 47
 	GRID_HEIGHT = 31
@@ -46,6 +46,9 @@ function love.load()
 
 	--build the test map tiles
 	main_cells.build_test_map()
+
+	selected_tile =  main_cells[0][0]
+
 end
 
 function love.update(dt)
@@ -58,8 +61,17 @@ function love.draw()
 	--draw tiles
 	for i = 0, GRID_WIDTH do
 		for j = 0, GRID_HEIGHT do
-			love.graphics.setColor( main_cells[i][j].color_r, main_cells[i][j].color_g, main_cells[i][j].color_b )
+			love.graphics.setColor( main_cells[i][j].terrain.color_r, main_cells[i][j].terrain.color_g, main_cells[i][j].terrain.color_b )
 			love.graphics.rectangle( "fill", main_cells[i][j].x * 25, main_cells[i][j].y * 25, 25, 25)
+		end
+	end
+
+	--draw buildings
+	for i = 0, GRID_WIDTH do
+		for j = 0, GRID_HEIGHT do
+			if main_cells[i][j].has_building then
+				love.graphics.draw( main_cells[i][j].building.image, i * 25, j * 25 )
+			end
 		end
 	end
 
@@ -79,6 +91,21 @@ function love.draw()
 	--draw selection box
 	love.graphics.setColor( 255, 0, 0, 100 )
 	love.graphics.rectangle( "fill", select_box_x, select_box_y, 25, 25 )
+
+	--draw the selected tile
+	love.graphics.setColor( selected_tile.terrain.color_r, selected_tile.terrain.color_g, selected_tile.terrain.color_b ) 
+	love.graphics.rectangle( "fill", 25, 825, 150, 150 )
+
+	--print the info next to the selected tile image
+	love.graphics.setColor( 255, 255, 255 )
+	love.graphics.print( selected_tile.terrain.type, 185, 830 )
+	love.graphics.print( selected_tile.terrain.description, 185, 850 )
+	-- love.graphics.print( "Tile Data", 185, 870 )
+	-- love.graphics.print( "Tile Data", 185, 890 )
+	-- love.graphics.print( "Tile Data", 185, 910 )
+	-- love.graphics.print( "Tile Data", 185, 930 )
+	-- love.graphics.print( "Tile Data", 185, 950 )
+
 end
 
 function love.mousepressed(x, y, button)
@@ -88,8 +115,10 @@ function love.mousepressed(x, y, button)
 		printy = math.floor( y / 25 )
 
 		--selection coords
-		selection_x = printx
-		selection_y = printy
+		-- selection_x = printx
+		-- selection_y = printy
+
+		selected_tile = main_cells[printx][printy]
 
 		--select the grid the mouse was pressed at
 		select_box_x = printx * 25
