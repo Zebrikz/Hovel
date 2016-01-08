@@ -12,6 +12,9 @@ function Village.initialize( village_name )
 	village.stone = 0
 	village.wood = 0
 	village.population = 1
+	village.week = 1
+	village.month = 1
+	village.year = 1
 	return village
 end
 

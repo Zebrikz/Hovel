@@ -25,6 +25,38 @@ function Cell_Matrix.initialize()
 	return matrix
 end
 
+function matrix.draw_board( width, height )
+	--draw tiles
+	for i = 0, width do
+		for j = 0, height do
+			love.graphics.setColor( matrix[i][j].terrain.color_r, matrix[i][j].terrain.color_g, matrix[i][j].terrain.color_b )
+			love.graphics.rectangle( "fill", matrix[i][j].x * 25, matrix[i][j].y * 25, 25, 25)
+		end
+	end
+
+	--draw buildings and resources
+	for i = 0, width do
+		for j = 0, height do
+			if matrix[i][j].has_building then
+				love.graphics.draw( matrix[i][j].building.image, i * 25, j * 25 )
+			end
+			if main_cells[i][j].has_resource then
+				love.graphics.draw( matrix[i][j].resource.image, i * 25, j * 25 )
+			end
+		end
+	end
+
+	love.graphics.setColor( 255, 255, 255 )
+	--set up the grid
+	for i=25, 800, 25 do
+		love.graphics.line( 0, i, 1200, i )
+	end
+	for i=25, 1200, 25 do 
+		love.graphics.line(i, 0, i, 800)
+	end
+
+end
+
 function matrix.build_test_map()
 	--setup terrain
 	for i = 0, 47 do
