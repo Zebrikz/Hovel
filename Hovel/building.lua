@@ -4,10 +4,11 @@
 
 local Building = {}
 
-function Building.initialize( type, image )
+function Building.initialize( type, image, big_image )
 	local building = {}
 	building.type = type
 	building.image = image
+	building.big_image = big_image
 	return building
 end
 

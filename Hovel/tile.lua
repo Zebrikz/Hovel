@@ -11,6 +11,8 @@ function Tile.initialize( x, y, t_type )
 	tile.x = x
 	tile.y = y
 	tile.terrain = Terrain.initialize( t_type )
+	tile.has_resource = false
+	tile.resource = nil
 	tile.has_building = false
 	tile.building = nil
 	return tile
