@@ -18,9 +18,6 @@ function Panel.initialize( x, y, width, height, color_r, color_g, color_b )
 	panel.color_b = color_b
 	panel.is_visible = false
 	panel.is_focused = false
-	panel.buttons = nil
-	panel.lists = nil
-	panel.panels = nil
 
 	function panel.draw_panel()
 		love.graphics.setColor( panel.color_r, panel.color_g, panel.color_b )

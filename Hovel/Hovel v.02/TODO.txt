@@ -1,0 +1,4 @@
+TODO for Hovel:
+first work on the ui manager to get a basic interface up
+next work on game logic
+final is resources like art work and text

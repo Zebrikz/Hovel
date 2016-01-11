@@ -1,0 +1,3 @@
+--Bottom UI  Class
+--Date: 01/09/2016
+--Author: Johann S. R. Eckman
